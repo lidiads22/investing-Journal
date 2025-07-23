@@ -10,7 +10,9 @@ import './css/style.css';
 import './charts/ChartjsConfig';
 
 // Import pages
+// Routes here! 
 import Dashboard from './pages/Dashboard';
+import TradeIdeas from './pages/TradeIdeas';
 
 function App() {
 
@@ -26,6 +28,7 @@ function App() {
     <>
       <Routes>
         <Route exact path="/" element={<Dashboard />} />
+        <Route path="/trade-ideas" element={<TradeIdeas />} />
       </Routes>
     </>
   );
