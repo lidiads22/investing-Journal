@@ -3,6 +3,28 @@ import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import Datepicker from '../components/Datepicker';
 
+// Delcare function for the API
+const fetchStockData = async (ticker) => {
+  try {
+    const response = await fetch(
+      `https://api.twelvedata.com/price?symbol=${ticker}&apikey=${import.meta.env.VITE_TWELVE_API_KEY}`
+    );
+    const data = await response.json();
+    console.log('Raw API response:', data);
+
+    if (data.price) {
+      return parseFloat(data.price);
+    } else {
+      console.warn('Invalid response from API:', data);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching stock price:', error);
+    return null;
+  }
+};
+
+
 function TradeIdeas() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -34,13 +56,18 @@ function TradeIdeas() {
     localStorage.setItem('tradeIdeas', JSON.stringify(ideas));
   }, [ideas]);
 
-  const handleSave = () => {
+  // 
+  const handleSave = async() => {
+    // Add the funtion for api price
+    const price = await fetchStockData(ticker);
+
     const newIdea = {
       id: Date.now(),
       date: selectedDate.toLocaleDateString(),
       ticker,
       status,
       notes,
+      price,
     };
     setIdeas([...ideas, newIdea]);
     setTicker('');
@@ -69,7 +96,7 @@ function TradeIdeas() {
                 </ul>
 
                 {/* 🔘 Filter Buttons */}
-                        <div className="mt-4 space-x-2">
+            <div className="mt-4 space-x-2">
             {['All', 'Ready', 'Watching', 'No Setup'].map((type) => (
                 <button
                 key={type}
@@ -98,6 +125,9 @@ function TradeIdeas() {
             <div className="text-sm text-gray-400">{idea.date}</div>
             <div className="font-bold text-lg">{idea.ticker}</div>
             <div className="text-sm text-blue-500 font-medium">{idea.status}</div>
+            <div className="text-sm text-green-400 font-semibold">
+                Current Price: ${idea.price ? `${idea.price}` : 'N/A'}
+            </div>
             <div className="text-sm mt-2 text-gray-700 dark:text-gray-300">{idea.notes}</div>
           </li>
         ))}
