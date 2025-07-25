@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import Datepicker from '../components/Datepicker';
 import { useEffect } from 'react';
+import Sidebar from '../partials/Sidebar';
+import Header from '../partials/Header';
 
 function TradeIdeas() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [ticker, setTicker] = useState('');
   const [status, setStatus] = useState('Watching');
@@ -45,25 +48,38 @@ function TradeIdeas() {
     const noSetupCount = ideas.filter((idea) => idea.status === 'No Setup').length;
 
   return (
+  <div className="flex h-screen overflow-hidden">
+    <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+    <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+      <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+      <main className="grow">
+        <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto"></div>
+
+
     <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-    {/* Summary Stats Section */}
+     {/* Summary Stats Section */}
     <div className="bg-slate-800 p-4 rounded-lg min-h-[200px]">
+
+
+        
     <h2 className="text-xl font-semibold mb-4">📊 Summary</h2>
-    {/* Stats go here */}
+        {/* Stats go here */}
     <ul className="text-sm space-y-2">
-  <li className="text-gray-700 dark:text-gray-300">
-    <strong>Total Ideas:</strong> {totalIdeas}
-  </li>
-  <li className="text-gray-700 dark:text-gray-300">
-    <strong>✅ Ready:</strong> {readyCount}
-  </li>
-  <li className="text-gray-700 dark:text-gray-300">
-    <strong>⏳ Watching:</strong> {watchingCount}
-  </li>
-  <li className="text-gray-700 dark:text-gray-300">
-    <strong>❌ No Setup:</strong> {noSetupCount}
-  </li>
-</ul>
+    <li className="text-gray-700 dark:text-gray-300">
+        <strong>Total Ideas:</strong> {totalIdeas}
+    </li>
+    <li className="text-gray-700 dark:text-gray-300">
+        <strong>✅ Ready:</strong> {readyCount}
+    </li>
+    <li className="text-gray-700 dark:text-gray-300">
+        <strong>⏳ Watching:</strong> {watchingCount}
+    </li>
+    <li className="text-gray-700 dark:text-gray-300">
+        <strong>❌ No Setup:</strong> {noSetupCount}
+    </li>
+    </ul>
 
     </div>
 
@@ -139,6 +155,9 @@ function TradeIdeas() {
             Save Idea
           </button>
         </div>
+        </div>
+        </div>
+        </main>
       </div>
     </div>
   );
