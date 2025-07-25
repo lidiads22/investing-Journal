@@ -75,6 +75,13 @@ function TradeIdeas() {
     setNotes('');
   };
 
+
+  // Handle delete
+const handleDelete = (id) => {
+  const updatedIdeas = ideas.filter((idea) => idea.id !== id);
+  setIdeas(updatedIdeas);
+};
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -129,6 +136,12 @@ function TradeIdeas() {
                 Current Price: ${idea.price ? `${idea.price}` : 'N/A'}
             </div>
             <div className="text-sm mt-2 text-gray-700 dark:text-gray-300">{idea.notes}</div>
+            <button
+            onClick={() => handleDelete(idea.id)}
+            className="text-red-500 text-sm mt-2 hover:underline"
+            >
+            Delete
+            </button>
           </li>
         ))}
       </ul>
@@ -184,7 +197,7 @@ function TradeIdeas() {
       className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700"
     >
       Save Idea
-                </button>
+    </button>
              </div>
             </div>
           </div>
