@@ -13,6 +13,7 @@ import './charts/ChartjsConfig';
 // Routes here! 
 import Dashboard from './pages/Dashboard';
 import TradeIdeas from './pages/TradeIdeas';
+import PLTracker from  './pages/PLTracker';
 
 function App() {
 
@@ -28,7 +29,8 @@ function App() {
     <>
       <Routes>
         <Route exact path="/" element={<Dashboard />} />
-        <Route path="/trade-ideas" element={<TradeIdeas />} />
+        <Route path="/trade-ideas" element={<TradeIdeas />} />    
+        <Route path="/pl-tracker" element={<PLTracker />} />
       </Routes>
     </>
   );

@@ -1,0 +1,44 @@
+/* calendarOverrides.css */
+.rbc-calendar,
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view {
+  background-color: #0f172a; /* Match your dark background */
+  color: #e2e8f0; /* Light text for visibility */
+}
+
+.rbc-header {
+  background-color: transparent;
+  color: #94a3b8;
+  border-bottom: 1px solid #1e293b;
+}
+
+.rbc-date-cell {
+  background-color: transparent;
+  color: #cbd5e1;
+}
+
+.rbc-day-bg {
+  background-color: transparent;
+}
+
+.rbc-off-range-bg {
+  background-color: #1e293b; /* Darker for off-month days */
+}
+
+.rbc-event {
+  background-color: #4ade80; /* Example green for profit */
+  color: #000;
+  border: none;
+}
+
+.rbc-toolbar button {
+  background-color: #1e293b;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+}
+
+.rbc-toolbar button:hover,
+.rbc-toolbar button:focus {
+  background-color: #334155;
+}
