@@ -52,19 +52,25 @@ export default function PLTracker() {
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleAddEvent = (e) => {
-    e.preventDefault()
+const handleAddEvent = (e) => {
+  e.preventDefault()
 
-    const newEvent = {
-      title: formData.title,
-      start: new Date(formData.date),
-      end: new Date(formData.date),
-      profit: parseFloat(formData.amount) > 0,
-    }
+  const { title, date, amount } = formData
+  const amountNum = parseFloat(amount)
 
-    setEvents([...events, newEvent])
-    setFormData({ title: '', date: '', amount: '' })
+  if (!title || !date || isNaN(amountNum)) return
+
+  const newEvent = {
+    title: `${title} ${amountNum > 0 ? '+' : ''}$${Math.abs(amountNum)}`,
+    start: new Date(date),
+    end: new Date(date),
+    profit: amountNum > 0,
   }
+
+  setEvents([...events, newEvent])
+  setFormData({ title: '', date: '', amount: '' })
+}
+
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -112,9 +118,7 @@ export default function PLTracker() {
     Add
   </button>
 </form>
-
             </div>
-
             <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-lg">
               <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
                 Profit & Loss Calendar
