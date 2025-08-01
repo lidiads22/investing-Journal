@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 
 import './css/style.css';
-
 import './charts/ChartjsConfig';
 
 // Import pages
@@ -14,6 +13,7 @@ import './charts/ChartjsConfig';
 import Dashboard from './pages/Dashboard';
 import TradeIdeas from './pages/TradeIdeas';
 import PLTracker from  './pages/PLTracker';
+import KeyConcepts from './pages/KeyConcepts';
 
 function App() {
 
@@ -31,6 +31,7 @@ function App() {
         <Route exact path="/" element={<Dashboard />} />
         <Route path="/trade-ideas" element={<TradeIdeas />} />    
         <Route path="/pl-tracker" element={<PLTracker />} />
+        <Route path="/key-concepts" element={<KeyConcepts />} />
       </Routes>
     </>
   );
