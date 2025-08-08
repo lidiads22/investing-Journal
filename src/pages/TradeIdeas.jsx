@@ -93,7 +93,7 @@ const handleDelete = (id) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
               {/* 📊 Summary Section */}
-              <div className="bg-slate-800 p-4 rounded-lg min-h-[200px]">
+              <div className="bg-white dark:bg-slate-800 p-4 rounded-lg min-h-[200px]">
                 <h2 className="text-xl font-semibold mb-4">📊 Summary</h2>
                 <ul className="text-sm space-y-2">
                   <li className="text-gray-700 dark:text-gray-300"><strong>Total Ideas:</strong> {totalIdeas}</li>
