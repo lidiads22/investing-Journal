@@ -1,40 +1,47 @@
-import React, { useEffect } from 'react';
-import {
-  Routes,
-  Route,
-  useLocation
-} from 'react-router-dom';
+// /src/App.jsx
+import React, { useEffect, useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 
-import './css/style.css';
-import './charts/ChartjsConfig';
+import "/src/css/style.css";
+import "/src/charts/ChartjsConfig";
 
-// Import pages
-// Routes here! 
-import Dashboard from './pages/Dashboard';
-import TradeIdeas from './pages/TradeIdeas';
-import PLTracker from  './pages/PLTracker';
-import KeyConcepts from './pages/KeyConcepts';
+// pages
+import Dashboard   from "/src/pages/Dashboard.jsx";
+import TradeIdeas  from "/src/pages/TradeIdeas.jsx";
+import PLTracker   from "/src/pages/PLTracker.jsx";
+import KeyConcepts from "/src/pages/KeyConcepts.jsx";
 
-function App() {
+// layout
+import Sidebar from "/src/partials/Sidebar.jsx";
+import Header  from "/src/partials/Header.jsx";
 
+export default function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    document.querySelector('html').style.scrollBehavior = 'auto'
-    window.scroll({ top: 0 })
-    document.querySelector('html').style.scrollBehavior = ''
-  }, [location.pathname]); // triggered on route change
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scroll({ top: 0 });
+    document.documentElement.style.scrollBehavior = "";
+  }, [location.pathname]);
 
   return (
-    <>
-      <Routes>
-        <Route exact path="/" element={<Dashboard />} />
-        <Route path="/trade-ideas" element={<TradeIdeas />} />    
-        <Route path="/pl-tracker" element={<PLTracker />} />
-        <Route path="/key-concepts" element={<KeyConcepts />} />
-      </Routes>
-    </>
+    <div className="flex h-screen overflow-hidden bg-slate-900 text-slate-100">
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+      <div className="relative flex flex-col flex-1 overflow-y-auto">
+        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+        <main className="p-6">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/trade-ideas" element={<TradeIdeas />} />
+            <Route path="/pl-tracker" element={<PLTracker />} />
+            <Route path="/key-concepts" element={<KeyConcepts />} />
+          </Routes>
+        </main>
+      </div>
+    </div>
   );
 }
 
-export default App;

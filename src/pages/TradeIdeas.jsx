@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
 import Datepicker from '../components/Datepicker';
 
 // Delcare function for the API
@@ -25,8 +23,7 @@ const fetchStockData = async (ticker) => {
 };
 
 
-function TradeIdeas() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+function TradeIdeas() {;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [ticker, setTicker] = useState('');
   const [status, setStatus] = useState('Watching');
@@ -84,16 +81,13 @@ const handleDelete = (id) => {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main className="grow">
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
               {/* 📊 Summary Section */}
-              <div className="bg-white dark:bg-slate-800 p-4 rounded-lg min-h-[200px]">
+              <div className="bg-slate-800 p-4 rounded-lg min-h-[200px]">
                 <h2 className="text-xl font-semibold mb-4">📊 Summary</h2>
                 <ul className="text-sm space-y-2">
                   <li className="text-gray-700 dark:text-gray-300"><strong>Total Ideas:</strong> {totalIdeas}</li>
@@ -203,7 +197,6 @@ const handleDelete = (id) => {
           </div>
         </main>
       </div>
-    </div>
   );
 }
 
