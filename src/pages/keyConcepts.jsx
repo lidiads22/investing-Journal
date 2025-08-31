@@ -1,15 +1,11 @@
-import React, { useState } from 'react'
-import Sidebar from '../partials/Sidebar'
-import Header from '../partials/Header'
+
 
 export default function KeyConcepts() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      
 
         <main className="grow p-6 max-w-6xl mx-auto">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">🧠 Key Concepts</h1>
@@ -75,6 +71,5 @@ export default function KeyConcepts() {
           </section>
         </main>
       </div>
-    </div>
   )
 }
