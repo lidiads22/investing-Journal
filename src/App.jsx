@@ -10,6 +10,8 @@ import Dashboard   from "/src/pages/Dashboard.jsx";
 import TradeIdeas  from "/src/pages/TradeIdeas.jsx";
 import PLTracker   from "/src/pages/PLTracker.jsx";
 import KeyConcepts from "/src/pages/KeyConcepts.jsx";
+import MarketStructure from "/src/pages/MarketStructure.jsx";
+
 
 // layout
 import Sidebar from "/src/partials/Sidebar.jsx";
@@ -38,6 +40,7 @@ export default function App() {
             <Route path="/trade-ideas" element={<TradeIdeas />} />
             <Route path="/pl-tracker" element={<PLTracker />} />
             <Route path="/key-concepts" element={<KeyConcepts />} />
+            <Route path="/market-structure" element={<MarketStructure />} />
           </Routes>
         </main>
       </div>
