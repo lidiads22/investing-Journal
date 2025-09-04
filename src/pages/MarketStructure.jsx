@@ -52,18 +52,38 @@ export default function MarketStructure() {
         </ul>
       </section>
 
-      {/* 3. Key Structure Terms */}
-      <section className="bg-white dark:bg-slate-800 p-4 rounded shadow mb-6">
-        <h2 className="text-lg font-semibold text-violet-500 mb-2">Key Market Structure Concepts</h2>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-200">
-          <li><strong>Break of Structure (BoS):</strong> Clear break of previous high/low — often signals a change in trend.</li>
-          <li><strong>Change of Character (ChoCh):</strong> Early signal of trend shift — usually internal structure flips.</li>
-          <li><strong>Accumulation / Distribution:</strong> Sideways zones that hint at big directional moves.</li>
-          <li><strong>Fair Value Gaps (FVG):</strong> Price inefficiencies that act as magnets for retracements.</li>
-          <li><strong>Order Blocks:</strong> Institutional zones of previous buying/selling.</li>
-          <li><strong>Zig Zag Indicator:</strong> Automatically marks pivots and structure for clarity.</li>
-        </ul>
-      </section>
+{/* 3. Key Structure Terms */}
+<section className="bg-white dark:bg-slate-800 p-4 rounded shadow mb-6">
+  <h2 className="text-lg font-semibold text-violet-500 mb-2">Key Market Structure Concepts</h2>
+
+  <ul className="list-disc list-inside text-gray-700 dark:text-gray-200 mb-4">
+    <li><strong>Break of Structure (BoS):</strong> Clear break of previous high/low — often signals a change in trend.</li>
+    <li><strong>Change of Character (ChoCh):</strong> Early signal of trend shift — usually internal structure flips.</li>
+    <li><strong>Accumulation / Distribution:</strong> Sideways zones that hint at big directional moves.</li>
+    <li><strong>Fair Value Gaps (FVG):</strong> Price inefficiencies that act as magnets for retracements.</li>
+    <li><strong>Order Blocks:</strong> Institutional zones of previous buying/selling.</li>
+    <li><strong>Zig Zag Indicator:</strong> Automatically marks pivots and structure for clarity.</li>
+  </ul>
+
+  {/* Image Layout Container */}
+  <div className="flex flex-col md:flex-row items-center justify-left gap-4">
+    {/* BoS / ChoCh diagram */}
+    <img
+      src="/src/images/choch.png"
+      alt="Break of Structure and Change of Character"
+      className="max-w-xs rounded shadow"
+    />
+
+    {/* FVG diagram */}
+    <img
+      src="/src/images/fvg.png"
+      alt="Fair Value Gap Diagram"
+      className="max-w-xs rounded shadow"
+    />
+  </div>
+</section>
+
+
 
       {/* 4. Real-Time Structure Reading */}
       <section className="bg-white dark:bg-slate-800 p-4 rounded shadow mb-6">
@@ -102,13 +122,80 @@ export default function MarketStructure() {
         </ul>
       </section>
 
-      {/* 7. Trading Based on Structure Breaks */}
-      <section className="bg-white dark:bg-slate-800 p-4 rounded shadow mb-6">
-        <h2 className="text-lg font-semibold text-violet-500 mb-2">Breaks in Structure = Opportunity</h2>
-        <p className="text-gray-700 dark:text-gray-200">
-          In an uptrend, a break of structure to the downside often hints at a reversal. In a downtrend, a break of structure to the upside can signal bullish control. Wait for confirmation and retest entries.
-        </p>
-      </section>
+    {/* 7. Trading Based on Structure Breaks */}
+<section className="bg-white dark:bg-slate-800 p-4 rounded shadow mb-6">
+  <h2 className="text-lg font-semibold text-violet-500 mb-2">
+    Breaks in Structure = Opportunity
+  </h2>
+  <p className="text-gray-700 dark:text-gray-200 mb-3">
+    Market structure shifts are some of the clearest signals of changing momentum. 
+    In an uptrend, a break of structure to the downside often hints at a reversal. 
+    In a downtrend, a break of structure to the upside can signal bullish control.
+  </p>
+
+  <div className="flex flex-col md:flex-row items-center justify-left gap-8 mb-5">
+    {/* sideway diagram */}
+    <img
+      src="/src/images/sidewayDiagram.png"
+      alt="Break of Structure and Change of Character"
+      className="max-w-md rounded shadow"
+    />
+  </div>
+
+  <h3 className="font-semibold text-violet-400 mb-1">How to Trade It:</h3>
+  <ul className="list-disc list-inside text-gray-700 dark:text-gray-200 mb-3">
+    <li><strong>Step 1:</strong> Identify the break (price closes beyond the last Higher Low / Lower High).</li>
+    <li><strong>Step 2:</strong> Wait for a retest of the broken level (acts as new support/resistance).</li>
+    <li><strong>Step 3:</strong> Confirm entry with price action (engulfing, rejection wick, volume spike).</li>
+    <li><strong>Step 4:</strong> Place stop-loss beyond the retest zone to limit false breakouts.</li>
+  </ul>
+
+  <h3 className="font-semibold text-violet-400 mb-1">Targets:</h3>
+  <p className="text-gray-700 dark:text-gray-200 mb-3">
+    First target = nearest liquidity pool (recent high/low). 
+    Second target = measured move (distance of last swing projected from the break).
+  </p>
+
+  <h3 className="font-semibold text-violet-400 mb-1">Key Notes:</h3>
+  <ul className="list-disc list-inside text-gray-700 dark:text-gray-200">
+    <li>Break + Retest = higher probability than trading the break alone.</li>
+    <li>Use multiple timeframes: confirmation on higher TF gives stronger signals.</li>
+    <li>Always calculate Risk-to-Reward (RR) before entering. Aim ≥ 2:1.</li>
+  </ul>
+</section>
+
+{/* Entry & Exit Playbook (by Market Phase) */}
+<section id="playbook" className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-lg mb-8">
+ <h2 className="text-lg font-semibold text-violet-500 mb-2">
+  Entry & Exit Playbook (by Market Phase)
+</h2>
+
+  {/* Sideways Play */}
+  <div className="mb-8">
+    <h3 className="text-xl font-semibold text-violet-400 mb-2">Sideways Consolidation</h3>
+    <div className="flex flex-col md:flex-row gap-6 items-start">
+      <img
+        src="/src/images/tradeviewExample1.png"
+        alt="Sideways range with entries/exits"
+        className="w-full md:w-2/3 max-w-3xl object-contain rounded-lg shadow-lg"
+      />
+      <div className="text-gray-700 dark:text-gray-200 text-base md:text-md">
+        <ul className="list-disc list-inside space-y-2">
+          <li><strong>Entry (long):</strong> Rejection at support; confirm with wick/engulf + volume.</li>
+          <li><strong>Entry (short):</strong> Rejection at resistance with confirmation.</li>
+          <li><strong>Stops:</strong> Outside the box (below support / above resistance).</li>
+          <li><strong>Targets:</strong> Mid-range partial → opposite edge full; breakout = range height projection.</li>
+          <li><strong>RR guide:</strong> Aim ≥ 2R edge→edge; skip if RR &lt; 1.8R.</li>
+          <li><strong>Session:</strong> Prefer London/NY overlap for GBPUSD; avoid low-vol Asia for range plays.</li>
+          <li><strong>Flip plan:</strong> Break + retest of 1.3580/1.3387 → switch to trend play.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  {/* (Optional) Uptrend & Downtrend cards go here similarly */}
+</section>
+
 
       {/* 8. Using Market Structure in Your Strategy */}
       <section className="bg-white dark:bg-slate-800 p-4 rounded shadow mb-6">
