@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Datepicker from '../components/Datepicker';
 
-// Delcare function for the API
+// Declare function for the API
 const fetchStockData = async (ticker) => {
   try {
     const response = await fetch(
-      `https://api.twelvedata.com/price?symbol=${ticker}&apikey=${import.meta.env.VITE_TWELVE_API_KEY}`
+      `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${import.meta.env.VITE_FINNHUB_KEY}`
     );
     const data = await response.json();
     console.log('Raw API response:', data);
 
-    if (data.price) {
-      return parseFloat(data.price);
+    if (data.c) { // Finnhub returns `c` as the current price
+      return parseFloat(data.c);
     } else {
       console.warn('Invalid response from API:', data);
       return null;
@@ -22,6 +22,8 @@ const fetchStockData = async (ticker) => {
   }
 };
 
+
+
 function TradeIdeas() { 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [ticker, setTicker] = useState('');
@@ -30,9 +32,10 @@ function TradeIdeas() {
   const [ideas, setIdeas] = useState([]);
   const [filter, setFilter] = useState('All');
 
+
   // Filtered list
   const filteredIdeas =
-    filter === 'All' ? ideas : ideas.filter((idea) => idea.status === filter);
+  filter === 'All' ? ideas : ideas.filter((idea) => idea.status === filter);
 
   // Derived counts
   const totalIdeas   = ideas.length;
@@ -49,6 +52,36 @@ function TradeIdeas() {
   const pctReady    = pct(readyCount,    totalIdeas);
   const pctWatching = pct(watchingCount, totalIdeas);
   const pctNoSetup  = pct(noSetupCount,  totalIdeas);
+  // inside component body:
+const [openTickers, setOpenTickers] = useState(false);
+const [hi, setHi] = useState(-1);
+const boxRef = useRef(null);
+
+const uniqueTickers = useMemo(
+  () =>
+    Array.from(
+      new Set(
+        ideas
+          .map(i => (i.ticker || "").trim().toUpperCase())
+          .filter(Boolean)
+      )
+    ).sort(),
+  [ideas]
+);
+
+const filteredTickers = useMemo(() => {
+  const q = (ticker || "").toUpperCase();
+  return q ? uniqueTickers.filter(t => t.includes(q)) : uniqueTickers;
+}, [ticker, uniqueTickers]);
+
+useEffect(() => {
+  const onDoc = (e) => {
+    if (!boxRef.current?.contains(e.target)) setOpenTickers(false);
+  };
+  document.addEventListener("mousedown", onDoc);
+  return () => document.removeEventListener("mousedown", onDoc);
+}, []);
+
 
   const topTickers = Object.entries(
     ideas.reduce((m, { ticker }) => {
@@ -188,63 +221,100 @@ function TradeIdeas() {
 
 
   {/* 🧠 Add Trade Idea (sticky on desktop) */}
-  <section
-      className="
-      col-span-12 xl:col-span-4
-      order-2
-      bg-slate-800 rounded-lg shadow p-6
+  {/* 🧠 Add Trade Idea */}
+<section className="col-span-12 xl:col-span-4 order-2 bg-slate-800 rounded-lg shadow p-6">
+  <h2 className="text-xl font-semibold mb-4">🧠 Add Trade Idea</h2>
 
-      "
+  <div className="mb-4">
+    <label className="block text-sm font-medium mb-1">Date</label>
+    <Datepicker value={selectedDate} onChange={setSelectedDate} />
+  </div>
+
+  {/* Ticker with autocomplete */}
+  <div ref={boxRef} className="mb-4 relative">
+    <label className="block text-sm font-medium mb-1">Ticker</label>
+    <input
+      type="text"
+      value={ticker}
+      autoComplete="off"
+      onFocus={() => setOpenTickers(true)}
+      onChange={(e) => {
+        setTicker(e.target.value.toUpperCase());
+        setOpenTickers(true);
+        setHi(-1);
+      }}
+      onKeyDown={(e) => {
+        if (!openTickers || filteredTickers.length === 0) return;
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          setHi(i => Math.min(i + 1, filteredTickers.length - 1));
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          setHi(i => Math.max(i - 1, 0));
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          if (hi >= 0) {
+            setTicker(filteredTickers[hi]);
+            setOpenTickers(false);
+          }
+        } else if (e.key === 'Escape') {
+          setOpenTickers(false);
+        }
+      }}
+      className="w-full px-3 py-2 border rounded bg-slate-900/40 border-slate-600 text-slate-100"
+      placeholder="e.g. AAPL"
+    />
+
+    {openTickers && filteredTickers.length > 0 && (
+      <ul className="absolute z-50 left-0 right-0 mt-1 max-h-48 overflow-y-auto rounded border border-slate-600 bg-slate-800">
+        {filteredTickers.map((t, i) => (
+          <li
+            key={t}
+            onMouseDown={() => { setTicker(t); setOpenTickers(false); }}
+            className={`px-3 py-2 cursor-pointer hover:bg-slate-700 text-slate-200 ${
+              i === hi ? 'bg-slate-700' : ''
+            }`}
+          >
+            {t}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+
+  {/* Status */}
+  <div className="mb-4">
+    <label className="block text-sm font-medium mb-1">Status</label>
+    <select
+      value={status}
+      onChange={(e) => setStatus(e.target.value)}
+      className="w-full px-3 py-2 border rounded bg-slate-900/40 border-slate-600 text-slate-100"
     >
-      <h2 className="text-xl font-semibold mb-4">🧠 Add Trade Idea</h2>
+      <option value="Watching">⏳ Watching</option>
+      <option value="Ready">✅ Ready to Trade</option>
+      <option value="No Setup">❌ No Setup</option>
+    </select>
+  </div>
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Date</label>
-        <Datepicker value={selectedDate} onChange={setSelectedDate} />
-      </div>
+  {/* Notes */}
+  <div className="mb-4">
+    <label className="block text-sm font-medium mb-1">Notes</label>
+    <textarea
+      value={notes}
+      onChange={(e) => setNotes(e.target.value)}
+      className="w-full px-3 py-2 border rounded bg-slate-900/40 border-slate-600 text-slate-100"
+      rows={4}
+      placeholder="What are you seeing on the chart?"
+    />
+  </div>
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Ticker</label>
-        <input
-          type="text"
-          value={ticker}
-          onChange={(e) => setTicker(e.target.value.toUpperCase())}
-          className="w-full px-3 py-2 border rounded bg-slate-900/40 border-slate-600 text-slate-100"
-          placeholder="e.g. AAPL"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Status</label>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="w-full px-3 py-2 border rounded bg-slate-900/40 border-slate-600 text-slate-100"
-        >
-          <option value="Watching">⏳ Watching</option>
-          <option value="Ready">✅ Ready to Trade</option>
-          <option value="No Setup">❌ No Setup</option>
-        </select>
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Notes</label>
-        <textarea
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          className="w-full px-3 py-2 border rounded bg-slate-900/40 border-slate-600 text-slate-100"
-          rows={4}
-          placeholder="What are you seeing on the chart?"
-        />
-      </div>
-
-      <button
-        onClick={handleSave}
-        className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 w-full"
-      >
-        Save Idea
-      </button>
-    </section>
+  <button
+    onClick={handleSave}
+    className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 w-full"
+  >
+    Save Idea
+  </button>
+</section>
 
           {/* 📂 Saved Ideas (full-width bottom, scrollable) */}
           <section className="col-span-12 order-3 bg-slate-800 rounded-lg shadow p-6">
