@@ -207,17 +207,6 @@ export default function MarketStructure() {
           <li>Use structure breaks and ChoCh to define bias shifts.</li>
         </ul>
       </section>
-
-      {/* 9. Tools to Help You */}
-      <section className="bg-white dark:bg-slate-800 p-4 rounded shadow">
-        <h2 className="text-lg font-semibold text-violet-500 mb-2">Tools to Scan Market Structure</h2>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-200">
-          <li><strong>Zig Zag Indicator:</strong> Automatically highlights key pivots (A–E).</li>
-          <li><strong>Auto Fibs:</strong> Visualize retracement strength (e.g., .50–.618).</li>
-          <li><strong>Structure Scanners:</strong> Look for pullbacks, breakouts, and reversals.</li>
-          <li><strong>Pivot Labels:</strong> Track swing high/low definitions and alerts.</li>
-        </ul>
-      </section>
     </div>
   );
 }

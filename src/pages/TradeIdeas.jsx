@@ -1,27 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Datepicker from '../components/Datepicker';
-
-// Declare function for the API
-const fetchStockData = async (ticker) => {
-  try {
-    const response = await fetch(
-      `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${import.meta.env.VITE_FINNHUB_KEY}`
-    );
-    const data = await response.json();
-    console.log('Raw API response:', data);
-
-    if (data.c) { // Finnhub returns `c` as the current price
-      return parseFloat(data.c);
-    } else {
-      console.warn('Invalid response from API:', data);
-      return null;
-    }
-  } catch (error) {
-    console.error('Error fetching stock price:', error);
-    return null;
-  }
-};
-
+import { supabase } from '../lib/supabase'; // adjust path if needed
 
 
 function TradeIdeas() { 
@@ -103,21 +82,28 @@ useEffect(() => {
     localStorage.setItem('tradeIdeas', JSON.stringify(ideas));
   }, [ideas]);
 
-  const handleSave = async () => {
-    const price = await fetchStockData(ticker);
-    const newIdea = {
-      id: Date.now(), // if you ever change this to a UUID, add a createdAt field
-      date: selectedDate.toLocaleDateString(),
+const handleSave = async () => {
+  const { data, error } = await supabase.from('trade_ideas').insert([
+    {
+      date: selectedDate.toISOString().split('T')[0], // format: YYYY-MM-DD
       ticker,
       status,
       notes,
-      price,
-    };
-    setIdeas([...ideas, newIdea]);
+    },
+  ]);
+
+  if (error) {
+    console.error('Error saving trade idea:', error);
+    alert('Something went wrong');
+  } else {
+    alert('Trade idea saved!');
     setTicker('');
     setStatus('Watching');
     setNotes('');
-  };
+    setSelectedDate(new Date());
+  }
+};
+
 
   const handleDelete = (id) => {
     setIdeas(ideas.filter((i) => i.id !== id));
@@ -219,8 +205,6 @@ useEffect(() => {
 </section>
 
 
-
-  {/* 🧠 Add Trade Idea (sticky on desktop) */}
   {/* 🧠 Add Trade Idea */}
 <section className="col-span-12 xl:col-span-4 order-2 bg-slate-800 rounded-lg shadow p-6">
   <h2 className="text-xl font-semibold mb-4">🧠 Add Trade Idea</h2>
