@@ -190,11 +190,10 @@ function TradeIdeas() {
   {/* 🧠 Add Trade Idea (sticky on desktop) */}
   <section
       className="
-        col-span-12 xl:col-span-4
-        order-2
-        bg-slate-800 rounded-lg shadow p-6
-        xl:sticky xl:top-24 xl:self-start
-        max-h-[calc(100vh-8rem)] overflow-auto
+      col-span-12 xl:col-span-4
+      order-2
+      bg-slate-800 rounded-lg shadow p-6
+
       "
     >
       <h2 className="text-xl font-semibold mb-4">🧠 Add Trade Idea</h2>
